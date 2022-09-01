@@ -52,7 +52,7 @@ end
 """
 Header creator
 """
-function header(;client::Client, url::String) :: Dict
+function header_creator(;client::Client, url::String) :: Dict
     nonce = string(time())
     return Dict{String, String}(
         "Content-Type" => "application/json", 
@@ -65,23 +65,7 @@ end
 """
 Make http request
 """
-function requests_and_parse(http_method::String, url::String) :: Tuple{Dict{String, Any}, Int16}
-    r = HTTP.request(http_method, url, header=header(client=client, url=url))
+function requests_and_parse(http_method::String, url::String, header::Dict) :: Tuple{Dict{String, Any}, Int16}
+    r = HTTP.request(http_method, url, header=header)
     return JSON.Parser.parse(String(r.body)), r.status
-end
-
-
-"""
-Get all currencies info.
-"""
-function currencies(client::Client) :: Tuple{Dict{String, Any}, Int16}
-    url = url_creator(client, "/currencies")
-    return requests_and_parse("GET", url)
-end
-
-
-if abspath(PROGRAM_FILE) == @__FILE__
-    client = Client("API", "API_SECRET")
-    
-    println(currencies(client))
 end
