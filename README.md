@@ -3,7 +3,7 @@
 
 
 # Features
-- Official implementation
+- Unofficial implementation
 - Place orders
 - Wallet managment 
 - Market data
