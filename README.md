@@ -11,8 +11,7 @@
 
 ## Installation
 
-julia:
-```sh
+```julia
 pkg> using TheRockTrading
 ```
 
