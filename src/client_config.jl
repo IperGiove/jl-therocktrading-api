@@ -66,7 +66,7 @@ end
 Make http request and parse
 """
 function requests_and_parse(
-    http_method::String, url::String, header::Dict; query::Dict
+    http_method::String, url::String, header::Dict; query::Union{Dict, Nothing}=nothing
     ) :: Tuple{Union{Vector{Any}, Dict{String, Any}}, Int16}
     r = HTTP.request(http_method, url, headers=header, query=query)
     return JSON.Parser.parse(String(r.body)), r.status
