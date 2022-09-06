@@ -12,7 +12,8 @@
 ## Installation
 
 ```julia
-pkg> using TheRockTrading
+pkg> #add TheRockTrading
+pkg> add https://github.com/IperGiove/jl-therocktrading-api.git
 ```
 
 ## Quickstart
@@ -26,7 +27,7 @@ If you want to use the staging set `staging=True`.
 ```julia
 using TheRockTrading
 
-client = TheRockTrading.Client(API='API', API_SECRET='API_SECRET', staging=false)
+client = TheRockTrading.Client(API="API", API_SECRET="API_SECRET", staging=false)
 
 println(TheRockTrading.currencies(client))
 ```
