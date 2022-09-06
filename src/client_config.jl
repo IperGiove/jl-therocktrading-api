@@ -73,4 +73,3 @@ function requests_and_parse(
     r = HTTP.request(http_method, url, headers=header, query=query)
     return JSON.Parser.parse(String(r.body)), r.status
 end
-
