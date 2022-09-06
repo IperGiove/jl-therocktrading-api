@@ -45,7 +45,7 @@ end
 Signature header
 """
 function signature_creator(;client::Client, message::String)
-    enc = bytes2hex(hmac_sha256(Vector{UInt8}(client.API_SECRET), message))
+    return String(bytes2hex(hmac_sha512(Vector{UInt8}(client.API_SECRET), Vector{UInt8}(message))))
 end
 
 
@@ -53,7 +53,7 @@ end
 Header creator
 """
 function header_creator(;client::Client, url::String) :: Dict
-    nonce = string(time())
+    nonce = string(trunc(Int, time() * 10000))
     return Dict{String, String}(
         "Content-Type" => "application/json", 
         "X-TRT-KEY" => client.API,
@@ -63,9 +63,11 @@ function header_creator(;client::Client, url::String) :: Dict
 end
 
 """
-Make http request
+Make http request and parse
 """
-function requests_and_parse(http_method::String, url::String, header::Dict) :: Tuple{Dict{String, Any}, Int16}
-    r = HTTP.request(http_method, url, header=header)
+function requests_and_parse(
+    http_method::String, url::String, header::Dict; query::Dict
+    ) :: Tuple{Union{Vector{Any}, Dict{String, Any}}, Int16}
+    r = HTTP.request(http_method, url, headers=header, query=query)
     return JSON.Parser.parse(String(r.body)), r.status
 end
